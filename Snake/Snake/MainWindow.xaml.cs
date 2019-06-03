@@ -24,5 +24,38 @@ namespace Snake
         {
             InitializeComponent();
         }
+
+        private void Window_MouseDown(
+            object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                double currentleft = Canvas.GetLeft(rect);
+                double newLeft = currentleft + 20;
+                Canvas.SetLeft(rect, newLeft);
+            }
+
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                Canvas.SetLeft(rect, 20);
+            }
+        }
+
+        private void Window_KeyDown(
+            object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Right)
+            {
+                double currentleft = Canvas.GetLeft(rect);
+                double newLeft = currentleft + 20;
+                Canvas.SetLeft(rect, newLeft);
+            }
+
+            if (e.Key == Key.Left)
+            {
+                
+                Canvas.SetLeft(rect, Canvas.GetLeft(rect) + 5);
+            }
+        }
     }
 }
