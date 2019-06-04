@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Snake
@@ -20,58 +11,76 @@ namespace Snake
     /// </summary>
     public partial class MainWindow : Window
     {
+        const double CellSize = 30D;
+        const int CellCount = 16;
+
         public MainWindow()
         {
             InitializeComponent();
+            DrawBoardBackground();
+            InitSnake();
         }
 
-        private void Window_MouseDown(
-            object sender, MouseButtonEventArgs e)
+        private void InitSnake()
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                double currentleft = Canvas.GetLeft(rect);
-                double newLeft = currentleft + 20;
-                Canvas.SetLeft(rect, newLeft);
-            }
+            Snake.Height = CellSize;
+            Snake.Width = CellSize;
+            double coord = CellCount * CellSize / 2;
+            Canvas.SetTop(Snake,coord);
+            Canvas.SetLeft(Snake, coord);
+        }
 
-            if (e.RightButton == MouseButtonState.Pressed)
+        private void DrawBoardBackground()
+        {
+            SolidColorBrush color1 = Brushes.SpringGreen;
+            SolidColorBrush color2 = Brushes.LimeGreen;
+
+            for (int row = 0; row < CellCount; row++)
             {
-                Canvas.SetLeft(rect, 20);
+                SolidColorBrush color =
+                    row % 2 == 0 ? color1 : color2;
+
+                for (int col = 0; col < CellCount; col++)
+                {
+                    Rectangle r = new Rectangle();
+                    r.Width = CellSize;
+                    r.Height = CellSize;
+                    r.Fill = color;
+                    Canvas.SetTop(r, row * CellSize);
+                    Canvas.SetLeft(r, col * CellSize);
+                    board.Children.Add(r);
+
+                    color = color == color1 ? color2 : color1;
+                }
             }
         }
 
         private void Window_KeyDown(
             object sender, KeyEventArgs e)
         {
-
-            if (e.Key == Key.Right)
+            if(e.Key == Key.Right)
             {
-                double currentleft = Canvas.GetLeft(rect);
-                double newLeft = currentleft + 20;
-                Canvas.SetLeft(rect, newLeft);
+                double currentLeft = Canvas.GetLeft(Snake);
+                double newLeft = currentLeft + 30;
+                Canvas.SetLeft(Snake, newLeft);
             }
-
-            if (e.Key == Key.Left)
+            else if(e.Key == Key.Left)
             {
-                
-                Canvas.SetLeft(rect, Canvas.GetLeft(rect) - 20);
+                double currentLeft = Canvas.GetLeft(Snake);
+                double newLeft = currentLeft - 30;
+                Canvas.SetLeft(Snake, newLeft);
             }
-
-            if (e.Key == Key.Down)
+            else if(e.Key == Key.Up)
             {
-                double currenttop = Canvas.GetTop(rect);
-                double newTop = currenttop + 20;
-                Canvas.SetTop(rect, newTop);
-                
+                double currentTop = Canvas.GetTop(Snake);
+                double newTop = currentTop - 30;
+                Canvas.SetTop(Snake, newTop);
             }
-
-            if (e.Key == Key.Up)
+            else if (e.Key == Key.Down)
             {
-                double currenttop = Canvas.GetTop(rect);
-                double newTop = currenttop - 20;
-                Canvas.SetTop(rect, newTop);
-               
+                double currentTop = Canvas.GetTop(Snake);
+                double newTop = currentTop + 30;
+                Canvas.SetTop(Snake, newTop);
             }
         }
     }
