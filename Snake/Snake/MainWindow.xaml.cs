@@ -44,6 +44,7 @@ namespace Snake
         private void Window_KeyDown(
             object sender, KeyEventArgs e)
         {
+
             if (e.Key == Key.Right)
             {
                 double currentleft = Canvas.GetLeft(rect);
@@ -54,7 +55,23 @@ namespace Snake
             if (e.Key == Key.Left)
             {
                 
-                Canvas.SetLeft(rect, Canvas.GetLeft(rect) + 5);
+                Canvas.SetLeft(rect, Canvas.GetLeft(rect) - 20);
+            }
+
+            if (e.Key == Key.Down)
+            {
+                double currenttop = Canvas.GetTop(rect);
+                double newTop = currenttop + 20;
+                Canvas.SetTop(rect, newTop);
+                
+            }
+
+            if (e.Key == Key.Up)
+            {
+                double currenttop = Canvas.GetTop(rect);
+                double newTop = currenttop - 20;
+                Canvas.SetTop(rect, newTop);
+                
             }
         }
     }
