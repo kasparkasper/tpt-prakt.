@@ -71,7 +71,7 @@ namespace Snake
                 double currenttop = Canvas.GetTop(rect);
                 double newTop = currenttop - 20;
                 Canvas.SetTop(rect, newTop);
-                
+               
             }
         }
     }
