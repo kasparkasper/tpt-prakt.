@@ -3,57 +3,50 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using System;
 
-namespace Snake
+namespace SnakeGame
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        const double CellSize = 30D;
+        
         const int CellCount = 16;
+        double CellSize = 30D;
+        DispatcherTimer timer;
+
+        Snake snake;
+        private Shape SnakeShape;
 
         public MainWindow()
         {
             InitializeComponent();
             DrawBoardBackground();
-            InitSnake();
+            
+            snake = new Snake(SnakeShape, CellSize, CellCount);
+            snake.Init();
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(2);
+            timer.Tick += Timer_Tick;
+            timer.Start();
         }
 
-
-        private void InitSnake()
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            Snake.Height = CellSize;
-            Snake.Width = CellSize;
-            double coord = CellCount * CellSize / 2;
-            Canvas.SetTop(Snake, coord);
-            Canvas.SetLeft(Snake, coord);
+            snake.Move();
         }
-        private void MoveSnake(Direction direction)
+
+        private void DirectSnake(Direction direction)
         {
-            if(direction == Direction.Up ||
-                direction == Direction.Down)
-            {
-                double currentTop = Canvas.GetTop(Snake);
-                double newTop = direction == Direction.Up
-                ?currentTop - CellSize
-                :currentTop + CellSize;
-                Canvas.SetTop(Snake, newTop);
-
-            }
-
-            if(direction == Direction.Left ||
-                direction == Direction.Right)
-            {
-
-                double currentLeft = Canvas.GetLeft(Snake);
-                double newLeft = direction == Direction.Left
-                ? currentLeft - CellSize
-                : currentLeft + CellSize;
-                Canvas.SetLeft(Snake, newLeft);
-            }
+            lblSnakeDirection = direction;
+            lblSnakeDirection.Content = $"Direction: {direction}";
         }
+
+       
 
 
 
@@ -108,7 +101,7 @@ namespace Snake
                     return;
             }
 
-            MoveSnake(direction);     
+            snake.ChangeDirection(direction);
             
         }
 
