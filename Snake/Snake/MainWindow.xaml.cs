@@ -30,23 +30,25 @@ namespace Snake
             Canvas.SetTop(Snake, coord);
             Canvas.SetLeft(Snake, coord);
         }
-        private void MoveSnake(bool up, bool down, bool left, bool right)
+        private void MoveSnake(Direction direction)
         {
-            if(up || down)
+            if(direction == Direction.Up ||
+                direction == Direction.Down)
             {
                 double currentTop = Canvas.GetTop(Snake);
-                double newTop = up
+                double newTop = direction == Direction.Up
                 ?currentTop - CellSize
                 :currentTop + CellSize;
                 Canvas.SetTop(Snake, newTop);
 
             }
 
-            if(left || right)
+            if(direction == Direction.Left ||
+                direction == Direction.Right)
             {
 
                 double currentLeft = Canvas.GetLeft(Snake);
-                double newLeft = left
+                double newLeft = direction == Direction.Left
                 ? currentLeft - CellSize
                 : currentLeft + CellSize;
                 Canvas.SetLeft(Snake, newLeft);
@@ -83,14 +85,39 @@ namespace Snake
         private void Window_KeyDown(
             object sender, KeyEventArgs e)
         {
-            bool up = e.Key == Key.Up;
-            bool down= e.Key == Key.Down;
-            bool left = e.Key == Key.Left;
-            bool right = e.Key == Key.Right;
+            Direction direction;
+            switch(e.Key)
+            {
+                case Key.Up:
+                    direction = Direction.Up;
+                    break;
 
-            MoveSnake(up, down, left, right);
+                case Key.Down:
+                    direction = Direction.Down;
+                    break;
 
+                case Key.Left:
+                    direction = Direction.Left;
+                    break;
+
+                case Key.Right:
+                    direction = Direction.Right;
+                    break;
+
+                default:
+                    return;
+            }
+
+            MoveSnake(direction);     
             
+        }
+
+        public enum Direction
+        {
+            Up,
+            Down,
+            Left,
+            Right
         }
     }
 }
