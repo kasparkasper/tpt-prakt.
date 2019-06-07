@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SnakeGame"
         mc:Ignorable="d"
         Title="Snake Game" 
-        ResizeMode="NoResize" 
+        ResizeMode="NoResize" Topmost="True" 
         SizeToContent="WidthAndHeight"
         KeyDown="Window_KeyDown">
     <Grid>
@@ -17,22 +17,16 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Label Name="lblGameStatus" FontWeight="Bold" FontSize="16"></Label>
             <Label Name="lblPoints" FontWeight="Bold" FontSize="16"></Label>
-            <Label Name="lblSnakeDirection" FontWeight="Bold"></Label>
+            <Label Name="lblSnakeDirection" FontWeight="Bold" FontSize="16"></Label>
         </StackPanel>
         <Canvas 
             Grid.Row="1"
             Name="board" 
             Height="480" Width="480">
-            <Rectangle 
-                Name="snakeShape"
-                Fill="MediumBlue"
-                Panel.ZIndex="10">
-            </Rectangle>
-            <Ellipse 
-                Name="foodShape" 
+            <Ellipse
+                Name="foodShape"
                 Fill="Red"
                 Panel.ZIndex="5">
-                
             </Ellipse>
         </Canvas>
     </Grid>
